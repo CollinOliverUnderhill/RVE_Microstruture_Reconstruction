@@ -641,7 +641,7 @@ def main():
         np.asarray(loss_hist, dtype=np.float64),
     )
 
-    # plot target vs recon K  —— 横坐标用 µm
+    # plot target vs recon K
     fig, ax = plt.subplots()
     ax.plot(r_values_um, K_target, "o-", label="target (mean)")
     if K_recon is not None:
