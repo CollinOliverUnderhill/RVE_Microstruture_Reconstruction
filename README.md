@@ -37,7 +37,7 @@ Edit `config.py` to point `IMG_DIR` to your binary micrograph folder (PNG files)
 
 ## Workflow
 
-### (Optional) Crop RVE-width patches
+### Crop RVE-width patches
 
 If you want reconstructions on patches with a fixed physical width, run:
 
@@ -101,3 +101,4 @@ Both the model and the output are online in HPC Storage. This can be made availa
 ## Outputs
 
 All reconstruction images and diagnostic plots are placed in `output/` by default. Check the console logs for exact filenames after each run.
+
