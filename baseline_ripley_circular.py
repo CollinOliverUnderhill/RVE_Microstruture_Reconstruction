@@ -555,11 +555,22 @@ def main():
     print(f"[MAIN] Reconstruction window shape_target = {shape_target}")
 
     # use λ_target * area_target to set N_target (point process constraint)
-    N_target = int(round(lambda_target * area_target))
+    # --- extended window area, since centres are sampled in [-R,H+R]×[-R,W+R]
+    R = int(FIBRE_RADIUS_INT)
+    area_ext = float((H_target + 2 * R) * (W_target + 2 * R))
+
+    # keep window-based N as a reference (optional)
+    N_target_win = int(round(lambda_target * area_target))
+
+    # use λ_target * area_ext to set N_target consistent with extended sampling domain
+    N_target = int(round(lambda_target * area_ext))
+
     print(
-        f"[MAIN] Using point density: N_target ≈ λ_target * A_target "
-        f"= {lambda_target:.6g} * {area_target:.0f} ≈ {N_target}"
+        f"[MAIN] Point density λ_target = {lambda_target:.6g} points/px²\n"
+        f"       Window area A_target = {area_target:.0f}, N_target_win ≈ {N_target_win}\n"
+        f"       Extended area A_ext  = {area_ext:.0f} (R={R}px), N_target_ext ≈ {N_target}"
     )
+
 
     if N_target < 2:
         raise RuntimeError(
@@ -641,7 +652,7 @@ def main():
         np.asarray(loss_hist, dtype=np.float64),
     )
 
-    # plot target vs recon K
+    # plot target vs recon K  —— 横坐标用 µm
     fig, ax = plt.subplots()
     ax.plot(r_values_um, K_target, "o-", label="target (mean)")
     if K_recon is not None:
